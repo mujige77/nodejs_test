@@ -1,0 +1,79 @@
+package ClientPacket;
+
+enum ProtocolVersion {
+    option allow_alias = true;
+    CURRENT_VERSION = 1;
+    MINIMUM_VERSION = 1;
+}
+
+enum Command {
+    SUCCESS = 0;
+    FAILURE = 1;
+}
+
+message Request {
+    required Command command = 1;
+    required int32 serial = 2;
+    required bytes session_id = 3;
+
+    message CheckVersion {
+        required ProtocolVersion current_version = 1;
+    }
+    optional CheckVersion check_version =  4;
+
+    message LoginUser {
+        required int32 account_type = 1;
+        required string username = 2;
+        optional string token_value = 3;
+        optional int32 device = 4;
+        optional int32 is_off = 5;
+        optional string device_name = 6;
+        optional string build_info = 7;
+    }
+    optional LoginUser login_user = 5;
+}
+
+message Response {
+    enum Result {
+        SUCCESS = 0;
+        FAILURE = 1;
+        COMMAND_INVALID = 2;
+        FIELD_MISSING = 3;
+        PROTOCOL_INCOMPATIBLE = 4;
+        SYSTEM_INTERNAL = 5;
+        STATE_INVALID = 6;              // 유효화 하지 않은 스테이지 - 존재하지 않은 스테이지.
+        SESSION_EXPIRED = 7;
+        PARAMETER_INVALID = 8;
+        AUTHTOKEN_EXPIRED = 9;
+
+        USER_NOT_FOUND = 11;
+        USER_BLOCKED = 12;
+        USER_LEAVED = 13;
+        USER_DUPLICATED = 14;
+        TICKET_LACK = 15;               // 티켓 수량이 부족하다.
+        MONEY_LACK = 16;    // 돈이 부족하다.
+        ASSET_LACK = 17;    // 에셋 수량이 부족 함
+        ASSET_EXIST = 18;
+        ASSET_NOT_FOUND = 19;
+    }
+
+    required Command command = 1;
+    required int32 serial = 2;
+    required Result result = 3;
+
+    message LoginUser {
+        required bytes session_id = 1;
+        required string nickname = 2;
+        optional int32 daily_cnt = 3;
+        optional int32 channel = 4;
+        optional int32 remain = 5;
+        required string auth_token = 6;
+        message premium_info {
+            optional int32 amount = 1;
+            optional int32 remain_days = 2;
+            optional int32 status = 3;
+        }
+        optional premium_info monthly_premium_info = 7;
+    }
+    optional LoginUser login_user = 4;
+}

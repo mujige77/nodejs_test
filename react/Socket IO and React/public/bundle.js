@@ -56,13 +56,19 @@
 	var Audience = __webpack_require__(260);
 	var Speaker = __webpack_require__(261);
 	var Board = __webpack_require__(262);
+	var Whoops404 = __webpack_require__(263);
 
 	var routes = React.createElement(
-		_reactRouter.Route,
-		{ path: '/', component: APP },
-		React.createElement(_reactRouter.IndexRoute, { component: Audience }),
-		React.createElement(_reactRouter.Route, { path: 'speaker', component: Speaker }),
-		React.createElement(_reactRouter.Route, { path: 'board', component: Board })
+		_reactRouter.Router,
+		{ history: _reactRouter.browserHistory },
+		React.createElement(
+			_reactRouter.Route,
+			{ path: '/', component: APP },
+			React.createElement(_reactRouter.IndexRoute, { component: Audience }),
+			React.createElement(_reactRouter.Route, { path: 'speaker', component: Speaker }),
+			React.createElement(_reactRouter.Route, { path: 'board', component: Board }),
+			React.createElement(_reactRouter.Route, { path: '*', component: Whoops404 })
+		)
 	);
 
 	//Router.run(routes, function(Handler) {
@@ -24310,9 +24316,6 @@
 	'use strict';
 
 	var React = __webpack_require__(150);
-	var Router = __webpack_require__(147);
-	var RouteHandler = Router.RouteHandler;
-
 	var io = __webpack_require__(209);
 	var Header = __webpack_require__(259);
 
@@ -24345,10 +24348,17 @@
 	            'div',
 	            null,
 	            React.createElement(Header, { title: this.state.title, status: this.state.status }),
-	            this.props.children
+	            React.cloneElement(this.props.children, {
+	                stateProps: this.state
+	            })
 	        );
 	    }
 	});
+
+	//{React.cloneElement(this.props.children, {
+	//    title:this.state.title,
+	//    status:this.state.status
+	//})}
 
 	module.exports = APP;
 
@@ -31730,12 +31740,17 @@
 
 	var Audience = React.createClass({
 		displayName: 'Audience',
+		getDefaultProps: function getDefaultProps() {
+			return {
+				title: 'disconnected'
+			};
+		},
 		render: function render() {
 			return React.createElement(
 				'h1',
 				null,
 				'Audience : ',
-				this.props.title
+				this.props.stateProps.title
 			);
 		}
 	});
@@ -31752,12 +31767,18 @@
 
 	var Speaker = React.createClass({
 		displayName: 'Speaker',
+		getInitialState: function getInitialState() {
+			return {
+				status: 'disconnected'
+			};
+		},
 		render: function render() {
+			//const { status } = this.props.params
 			return React.createElement(
 				'h1',
 				null,
 				'Speaker : ',
-				this.props.status
+				this.props.stateProps.status
 			);
 		}
 	});
@@ -31774,18 +31795,80 @@
 
 	var Board = React.createClass({
 		displayName: 'Board',
+		getDefaultProps: function getDefaultProps() {
+			return {
+				dance: 'disconnected'
+			};
+		},
 		render: function render() {
 			return React.createElement(
 				'h1',
 				null,
 				'Board : ',
-				this.props.dance,
+				this.props.stateProps.dance,
 				' '
 			);
 		}
 	});
 
 	module.exports = Board;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by tteogi on 2016. 1. 11..
+	 */
+	'use strict';
+
+	var React = __webpack_require__(150);
+	var Router = __webpack_require__(147);
+	var Link = Router.Link;
+
+	//import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+
+	var Whoops404 = React.createClass({
+	    displayName: 'Whoops404',
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            { id: 'not-found' },
+	            React.createElement(
+	                'h1',
+	                null,
+	                'Whoops...'
+	            ),
+	            React.createElement(
+	                'p',
+	                null,
+	                'we cannot find the page that you have requested.'
+	            ),
+	            React.createElement(
+	                Link,
+	                { to: '/' },
+	                'Join as Audience'
+	            ),
+	            React.createElement(
+	                Link,
+	                { to: '/speaker' },
+	                'Start the presentation'
+	            ),
+	            React.createElement(
+	                Link,
+	                { to: '/board' },
+	                'View the board'
+	            )
+	        );
+	    }
+	});
+
+	//var module1 = _interopRequireDefault(function() {
+	//    return new Whoops404()
+	//});
+	//exports.Whoops404 = module1['default']
+
+	module.exports = Whoops404;
 
 /***/ }
 /******/ ]);

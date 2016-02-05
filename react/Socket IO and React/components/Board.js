@@ -1,8 +1,13 @@
 var React = require('react');
 
 var Board = React.createClass({
+	getDefaultProps() {
+		return {
+			dance: 'disconnected'
+		}
+	},
 	render() {
-		return (<h1>Board : {this.props.dance} </h1>);
+		return (<h1>Board : {this.props.stateProps.dance} </h1>);
 	}
 });
 

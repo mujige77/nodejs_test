@@ -1,7 +1,4 @@
 var React = require('react');
-var Router = require('react-router');
-var RouteHandler = Router.RouteHandler;
-
 var io = require('socket.io-client');
 var Header = require('./parts/Header');
 
@@ -37,12 +34,21 @@ var APP = React.createClass({
     render() {
         return (
             <div>
-                <Header title={this.state.title} status={this.state.status} />
-                {this.props.children}
+                <Header title={this.state.title} status={this.state.status}>
+                </Header>
+                {React.cloneElement(this.props.children, {
+                    stateProps:this.state
+                }
+                )}
             </div>
         );
     }
 
 });
+
+//{React.cloneElement(this.props.children, {
+//    title:this.state.title,
+//    status:this.state.status
+//})}
 
 module.exports = APP;

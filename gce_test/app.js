@@ -22,7 +22,7 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(4646, function(){
+http.listen(4646, '10.140.0.6', function(){
     console.log('listening on *:4646');
 });
 

@@ -21,7 +21,7 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(4646, function(){
+http.listen(4646, '10.140.0.7', function(){
     console.log('listening on *:4646');
 });
 
@@ -30,7 +30,7 @@ foo.subscribe(
     (x) => {
         console.log("try")
         sockets.forEach((socket) => {
-            socket.emit('message :',"gogogogogo" + x);
+            socket.emit('message',"gogogogogo" + x);
         })
     },
     (err) => { console.log('error ' + err) },

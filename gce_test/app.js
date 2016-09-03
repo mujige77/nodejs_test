@@ -11,7 +11,7 @@ io.on('connection', function(socket){
     sockets.push(socket);
 
     socket.on('message', function(msg){
-        console.log('message: ' + msg);
+        console.log('server receive message: ' + msg);
     });
 
     socket.on('disconnect', function(){
@@ -21,13 +21,14 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(4646, '10.140.0.6', function(){
+http.listen(4646, function(){
     console.log('listening on *:4646');
 });
 
 var foo = Rx.Observable.interval(10000)
 foo.subscribe(
     (x) => {
+        console.log("try")
         sockets.forEach((socket) => {
             socket.emit('message :',"gogogogogo" + x);
         })

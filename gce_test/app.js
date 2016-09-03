@@ -25,11 +25,11 @@ http.listen(4646, '10.140.0.6', function(){
     console.log('listening on *:4646');
 });
 
-var foo = Rx.Observable.interval(1000)
+var foo = Rx.Observable.interval(10000)
 foo.subscribe(
     (x) => {
         sockets.forEach((socket) => {
-            socket.emit('message',"gogogogogo" + x);
+            socket.emit('message :',"gogogogogo" + x);
         })
     },
     (err) => { console.log('error ' + err) },

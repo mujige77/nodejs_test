@@ -22,8 +22,8 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(3000, '10.140.0.6', function(){
-    console.log('listening on *:3000');
+http.listen(4646, function(){
+    console.log('listening on *:4646');
 });
 
 var foo = Rx.Observable.interval(1000)
@@ -38,12 +38,12 @@ foo.subscribe(
 )
 
 
-var socket = ioCient('http://10.140.0.7');
+var socket = ioCient('http://10.140.0.7:4646');
 socket.on('message', function(data){
     console.log('client receive: message' + data)
 });
 
-var socket2 = ioCient('http://10.140.0.8');
+var socket2 = ioCient('http://10.140.0.8:4646');
 socket2.on('message', function(data){
     console.log('client receive: message' + data)
 });

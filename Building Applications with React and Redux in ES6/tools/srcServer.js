@@ -1,3 +1,7 @@
+/**
+ * Created by tteogi on 2016-09-13.
+ */
+
 import express from 'express';
 import webpack from 'webpack';
 import path from 'path';

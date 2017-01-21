@@ -1,13 +1,19 @@
-import { Component } from '@angular/core'
-
+import { Component, OnInit } from '@angular/core'
+import { IProduct } from    './product'
 @Component({
     selector: 'pm-products',
-    templateUrl: 'app/products/product-list.component.html'
+    moduleId: module.id,
+    templateUrl: 'product-list.component.html',
+    styleUrls: ['product-list.component.css']
 })
 
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
     pageTitle: string = 'Product List';
-    products: any[] = [
+    imageWidth: number = 50;
+    imageMargin: number = 2;
+    showImage: boolean = false;
+    listFilter: string = 'cart';
+    products: IProduct[] = [
         {
             "productId": 1,
             "productName": "Leaf Rake",
@@ -24,7 +30,7 @@ export class ProductListComponent {
             "productCode": "GDN-0023",
             "releaseDate": "March 18, 2016",
             "description": "15 gallon capacity rolling garden cart",
-            "price": 32.99,
+            "price": 32111.99,
             "starRating": 4.2,
             "imageUrl": "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
         },
@@ -59,4 +65,19 @@ export class ProductListComponent {
             "imageUrl": "http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
         }
     ];
+
+    toggleImage(): void {
+        this.showImage = !this.showImage;
+    }
+    
+    ngOnInit(): void {
+        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+        //Add 'implements OnInit' to the class.
+        console.log("product ngOnInit")
+    }
+
+    onRatingClicked(message: string): void {
+        this.pageTitle = 'Product List :' + message;
+    }
+
 }

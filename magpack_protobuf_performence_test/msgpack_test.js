@@ -171,6 +171,23 @@ function test() {
     }
     packTime = new Date().getTime() - start;
     console.log("msgpacklite unpack - " + packTime);
+    
+    start = new Date().getTime();
+    for (let i = 0; i < testLoop; i ++) {
+        unpack = msgpacklite.encode(objs[i%objs.length])
+    }
+    packTime = new Date().getTime() - start;
+    console.log("msgpacklite encoder - " + packTime);
+
+    var dlist = []
+    for (let i = 0; i < testLoop; i ++) {
+        var decoder = msgpack.Decoder();
+        decoder.on("data", function(chunk) {
+            dlist.push(chunk)
+        }).decode(responseData)
+    }
+    packTime = new Date().getTime() - start;
+    console.log("msgpacklite decoder - " + packTime);
 }
 
 test()
